@@ -125,11 +125,11 @@ class PokerMachine():
 
         if self.bet > self.pot:
             self._show_bet_error("Don't be greedy!",
-                                "You don't have that much money!")
+                                 "You don't have that much money!")
             return
         elif self.bet < 1:
             self._show_bet_error("Don't get clever!",
-                                "You must bet a positive whole number!")
+                                 "You must bet a positive whole number!")
             return
 
         # We have a valid bet, so shuffle the deck
