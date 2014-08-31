@@ -2,6 +2,7 @@
 
 from tkinter import PhotoImage
 
+
 class CardImages:
 
     '''Card images class.'''
@@ -47,4 +48,3 @@ class CardImages:
                 cls.cardimgs.append(newcard)
 
         return cls.cardimgs[cardindex - 1]
-
