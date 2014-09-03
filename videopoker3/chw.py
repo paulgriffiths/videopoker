@@ -9,8 +9,6 @@ from tkinter import Tk, Frame, Button, Label
 from tkinter import TOP, BOTTOM, LEFT, RIGHT
 from tkinter import SUNKEN
 import pcards
-import cardhandwidget
-import cardimages
 
 
 class ControlWidget(Frame):
@@ -71,10 +69,10 @@ class GameWindow(Frame):
         self.num_cards = 3
         self.parent = parent
 
-        self.chw = cardhandwidget.CardHandWidget(self,
-                                                 cardimages.CardImagesLarge,
-                                                 numcards=self.num_cards,
-                                                 relief=SUNKEN, borderwidth=2)
+        self.chw = pcards.CardHandWidget(self,
+                                         pcards.CardImagesSmall,
+                                         numcards=self.num_cards,
+                                         relief=SUNKEN, borderwidth=2)
         self.chw.pack(side=TOP, padx=5, pady=5)
 
         self.control_frame = ControlWidget(self, self.handler)
