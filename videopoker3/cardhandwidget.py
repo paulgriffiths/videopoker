@@ -117,5 +117,3 @@ class CardHandWidget(Frame):
             return hand_text
         else:
             return "<Empty>"
-
-
