@@ -6,17 +6,89 @@ GAME_START = 1
 GAME_POSTDEAL = 2
 GAME_OVER = 3
 
-class NegativeBet(Exception):
+
+class BetBankException(Exception):
+
+    '''Bet bank exception base class.'''
+
+    pass
+
+
+class AlreadyBetError(BetBankException):
+
+    '''Already bet exception class.'''
+
+    pass
+
+
+class NoCurrentBetError(BetBankException):
+
+    '''No current bet exception class.'''
+
+    pass
+
+
+class NegativeBetError(BetBankException):
 
     '''Negative bet exception class.'''
 
     pass
 
-class NotEnoughMoney(Exception):
+
+class NotEnoughMoneyError(BetBankException):
 
     '''Not enough money exception class.'''
 
     pass
+
+
+class OutOfMoneyException(BetBankException):
+
+    '''Out of money exception class.'''
+
+    pass
+
+
+class BetBank():
+
+    '''Betting bank class.'''
+
+    def __init__(self, start_cash=100, default_bet=5):
+
+        '''Initialization method.'''
+
+        self.cash = start_cash
+        self.default_bet = default_bet
+        self.bet = None
+        self._observers = []
+
+    def place_bet(self, amount=None):
+
+        '''Place bet method.'''
+
+        if self.bet:
+            raise AlreadyBetError
+
+        if amount > self.cash:
+            raise NotEnoughMoneyError
+
+        self.bet = amount if amount else self.default_bet
+        self.cash -= self.bet
+        self.default_bet = self.bet if self.bet > self.cash else self.cash
+
+    def process_win(self, win_ratio):
+
+        '''Process win ratio.'''
+
+        if not self.bet:
+            raise NoCurrentBetError
+
+        self.cash += self.bet * win_ratio
+        self.bet = None
+
+        if self.cash < 1:
+            raise OutOfMoneyException
+
 
 class PokerMachine():
 
@@ -98,7 +170,7 @@ class PokerMachine():
 
         xchg_str = ""
 
-        for (flipped, position) in enumerate(self.flipped):
+        for flipped, position in enumerate(self.flipped):
             if flipped:
                 xchg_str += position + 1
 
@@ -150,4 +222,3 @@ class PokerMachine():
             card_string = '[No dealt hand]'
 
         return card_string
-
