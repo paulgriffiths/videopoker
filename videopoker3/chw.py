@@ -71,7 +71,8 @@ class GameWindow(Frame):
         self.num_cards = 3
         self.parent = parent
 
-        self.chw = cardhandwidget.CardHandWidget(self, cardimages.CardImages,
+        self.chw = cardhandwidget.CardHandWidget(self,
+                                                 cardimages.CardImagesLarge,
                                                  numcards=self.num_cards,
                                                  relief=SUNKEN, borderwidth=2)
         self.chw.pack(side=TOP, padx=5, pady=5)
@@ -121,6 +122,7 @@ def main():
     '''Main function.'''
 
     root = Tk()
+    root.title("Card Hand Widget Demo")
 
     game_window = GameWindow(root)
     game_window.pack(side=TOP)
