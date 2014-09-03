@@ -5,6 +5,7 @@
 # Disable pylint message from inherited tkinter classes
 # pylint: disable=too-many-public-methods
 
+import sys
 from tkinter import Tk, Frame, Button, Label
 from tkinter import TOP, BOTTOM, LEFT, RIGHT
 from tkinter import SUNKEN
@@ -58,7 +59,7 @@ class GameWindow(Frame):
 
     '''Main game window class.'''
 
-    def __init__(self, parent):
+    def __init__(self, parent, large=False):
 
         '''Initialization method.'''
 
@@ -68,9 +69,10 @@ class GameWindow(Frame):
         self.hand = pcards.Hand(self.deck)
         self.num_cards = 3
         self.parent = parent
+        self.card_images = (pcards.CardImagesLarge if large
+                            else pcards.CardImagesSmall)
 
-        self.chw = pcards.CardHandWidget(self,
-                                         pcards.CardImagesSmall,
+        self.chw = pcards.CardHandWidget(self, self.card_images,
                                          numcards=self.num_cards,
                                          relief=SUNKEN, borderwidth=2)
         self.chw.pack(side=TOP, padx=5, pady=5)
@@ -122,7 +124,12 @@ def main():
     root = Tk()
     root.title("Card Hand Widget Demo")
 
-    game_window = GameWindow(root)
+    if len(sys.argv) > 1 and sys.argv[1].lower() == 'large':
+        large_images = True
+    else:
+        large_images = False
+
+    game_window = GameWindow(root, large=large_images)
     game_window.pack(side=TOP)
 
     root.mainloop()
